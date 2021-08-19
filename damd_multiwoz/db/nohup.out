@@ -1,0 +1,92 @@
+Usage: sqlite_web [options]
+
+Options:
+  -h, --help            show this help message and exit
+  -p PORT, --port=PORT  Port for web interface, default=8080
+  -H HOST, --host=HOST  Host for web interface, default=127.0.0.1
+  -d, --debug           Run server in debug mode
+  -x, --no-browser      Do not automatically open browser page.
+  -P, --password        Prompt for password to access database browser.
+  -r, --read-only       Open database in read-only mode.
+  -u URL_PREFIX, --url-prefix=URL_PREFIX
+                        URL prefix for application.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 3099, in execute_sql
+    cursor.execute(sql, params or ())
+sqlite3.DatabaseError: file is encrypted or is not a database
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/sqlite_web", line 8, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python3.6/dist-packages/sqlite_web/sqlite_web.py", line 840, in main
+    initialize_app(args[0], options.read_only, password, options.url_prefix)
+  File "/usr/local/lib/python3.6/dist-packages/sqlite_web/sqlite_web.py", line 811, in initialize_app
+    dataset = SqliteDataSet('sqlite:///%s' % filename, bare_fields=True)
+  File "/usr/local/lib/python3.6/dist-packages/playhouse/dataset.py", line 48, in __init__
+    **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/playhouse/reflection.py", line 675, in generate_models
+    include_views)
+  File "/usr/local/lib/python3.6/dist-packages/playhouse/reflection.py", line 549, in introspect
+    tables = self.metadata.database.get_tables(schema=self.schema)
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 3590, in get_tables
+    'type=? ORDER BY name' % schema, ('table',))
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 3106, in execute_sql
+    self.commit()
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 2873, in __exit__
+    reraise(new_type, new_type(exc_value, *exc_args), traceback)
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 183, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 3099, in execute_sql
+    cursor.execute(sql, params or ())
+peewee.DatabaseError: file is encrypted or is not a database
+ * Serving Flask app "sqlite_web.sqlite_web" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://gramachand-wsl7:8080/ (Press CTRL+C to quit)
+127.0.0.1 - - [31/Jul/2020 10:59:42] "[37mGET / HTTP/1.1[0m" 200 -
+127.0.0.1 - - [31/Jul/2020 10:59:42] "[37mGET /static/css/bootstrap.min.css HTTP/1.1[0m" 200 -
+127.0.0.1 - - [31/Jul/2020 10:59:42] "[37mGET /static/css/sqlbrowse.css HTTP/1.1[0m" 200 -
+127.0.0.1 - - [31/Jul/2020 10:59:42] "[37mGET /static/css/syntax-highlight.css HTTP/1.1[0m" 200 -
+127.0.0.1 - - [31/Jul/2020 10:59:42] "[37mGET /static/js/jquery-1.11.0.min.js HTTP/1.1[0m" 200 -
+127.0.0.1 - - [31/Jul/2020 10:59:42] "[36mGET /static/js/bootstrap.bundle.min.js HTTP/1.1[0m" 304 -
+127.0.0.1 - - [31/Jul/2020 10:59:57] "[37mGET / HTTP/1.1[0m" 200 -
+127.0.0.1 - - [31/Jul/2020 10:59:57] "[37mGET /static/css/bootstrap.min.css HTTP/1.1[0m" 200 -
+127.0.0.1 - - [31/Jul/2020 10:59:57] "[37mGET /static/css/sqlbrowse.css HTTP/1.1[0m" 200 -
+127.0.0.1 - - [31/Jul/2020 10:59:57] "[37mGET /static/css/syntax-highlight.css HTTP/1.1[0m" 200 -
+127.0.0.1 - - [31/Jul/2020 10:59:57] "[37mGET /static/js/jquery-1.11.0.min.js HTTP/1.1[0m" 200 -
+127.0.0.1 - - [31/Jul/2020 10:59:57] "[37mGET /static/js/bootstrap.bundle.min.js HTTP/1.1[0m" 200 -
+127.0.0.1 - - [31/Jul/2020 10:59:57] "[32mGET /favicon.ico HTTP/1.1[0m" 308 -
+127.0.0.1 - - [31/Jul/2020 10:59:57] "[33mGET /favicon.ico/ HTTP/1.1[0m" 404 -
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 3035, in connect
+    self._state.set_connection(self._connect())
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 3371, in _connect
+    isolation_level=None, **self.connect_params)
+sqlite3.OperationalError: unable to open database file
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/sqlite_web", line 8, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python3.6/dist-packages/sqlite_web/sqlite_web.py", line 840, in main
+    initialize_app(args[0], options.read_only, password, options.url_prefix)
+  File "/usr/local/lib/python3.6/dist-packages/sqlite_web/sqlite_web.py", line 811, in initialize_app
+    dataset = SqliteDataSet('sqlite:///%s' % filename, bare_fields=True)
+  File "/usr/local/lib/python3.6/dist-packages/playhouse/dataset.py", line 41, in __init__
+    self._database.connect()
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 3038, in connect
+    self._initialize_connection(self._state.conn)
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 2873, in __exit__
+    reraise(new_type, new_type(exc_value, *exc_args), traceback)
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 183, in reraise
+    raise value.with_traceback(tb)
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 3035, in connect
+    self._state.set_connection(self._connect())
+  File "/usr/local/lib/python3.6/dist-packages/peewee.py", line 3371, in _connect
+    isolation_level=None, **self.connect_params)
+peewee.OperationalError: unable to open database file

@@ -1,0 +1,13 @@
+torch==1.4.0
+transformers>=2.8.0
+spacy==2.2.2
+nltk==3.4.5
+nvidia-ml-py3==7.352.0
+keras==2.2.4
+gensim==4.0.1
+tensorboard==2.1.1
+tensorflow-gpu==2.1.0
+pandas==1.1.5
+pydevd==1.9.0
+Pillow==7.2.0
+spacy==2.2.2

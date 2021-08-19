@@ -1,0 +1,11 @@
+damd_multiwoz/data/embeddings
+damd_multiwoz/data/multi-woz-analysis
+damd_multiwoz/data/multi-woz-processed
+damd_multiwoz/data/multi-woz-oppe
+__pycache__
+log/*.txt
+logs/*.log
+experiments/**
+damd_multiwoz/log/*.txt
+damd_multiwoz/logs/*.log
+damd_multiwoz/experiments/**
