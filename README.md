@@ -21,7 +21,7 @@ Run the following command to install dependencies
 ```console
 pip install -r requirements.txt
 ```
-## Data preprocessing
+## Data setup
 Run the following command for data setup
 ```console
 script ./damd_multiwoz/scripts/data_setup.sh
