@@ -1,29 +1,17 @@
 from collections import defaultdict
 import json
-from multiprocessing import Pool
 import os
 import random
-import re
-import shutil
-import sys
-from tqdm import tqdm
 
 import numpy as np
-import ontology, utils
-import pandas as pd
+from argparse import ArgumentParser
 
-
-use_previous_state_domain=False
-use_state_act_type = {
-    0:'fine',
-    1:'coarse'
-}[0]
 
 K=10
 TRAIN_ON=['act','resp'][0]
 GAMMA_GLOBAL = 0.0
 USE_R_AS_G = True
-fn_G_file_name = 'fn_Gs_{}_{}_{}.json'.format(K, GAMMA_GLOBAL, TRAIN_ON)
+METRIC=['soft', 'hard'][0]
 
 def get_turn_state(full_state,turn_domain):
     all_domain = ['[police]', '[taxi]', '[restaurant]', '[attraction]', '[hotel]', '[hospital]', '[train]', '[general]']
@@ -192,10 +180,51 @@ def persist_Q_function(data_for_damds, Q_infos, state_acts, fn_tn_states, path_t
             json.dump(Q_fn,f,indent=2)
     return Q_fn
 
-if __name__ == '__main__':
-    root_path = './damd_multiwoz/data'
-    state_valid_acts_json_path = os.path.join(root_path,'multi-woz-oppe/state_valid_acts.json')
+def set_seed(seed):
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+    random.seed(seed)
 
+if __name__ == '__main__':
+    parser = ArgumentParser()
+    parser.add_argument("-s", "--seed", dest="seed",
+                        default=11,
+                        type=int,
+                        help="seed")
+    parser.add_argument("-K", "--folds",
+                        dest="folds", default=10,
+                        type=int,
+                        help="Number of folds")
+    parser.add_argument("-a", "--action_space",
+                        dest="action_space",
+                        choices={"act", "resp"},
+                        default='act',
+                        help="action space. can either be act or resp")
+    parser.add_argument("-m", "--metric",
+                        dest="metric",
+                        choices={"hard", "soft"},
+                        default='soft',
+                        help="metric used for pairwise reward candidate generation")
+    parser.add_argument("-g", "--gamma",
+                        dest="gamma",
+                        default=0.0,
+                        type=float,
+                        help="The discount factor used in reward learning")
+    args = parser.parse_args()
+    
+    
+    
+    args = parser.parse_args()
+    
+    K=args.folds
+    TRAIN_ON=args.action_space
+    GAMMA_GLOBAL = args.gamma
+    METRIC = args.metric
+    fn_G_file_name = 'fn_Gs_{}_{}_{}_{}.json'.format(K, GAMMA_GLOBAL, TRAIN_ON, METRIC)
+    
+    set_seed(args.seed)
+    
+    root_path = './damd_multiwoz/data'
 
     test_fn_json_path = os.path.join(root_path,'multi-woz/testListFile.json')
     valid_fn_json_path = os.path.join(root_path,'multi-woz/valListFile.json')

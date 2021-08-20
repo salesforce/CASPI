@@ -38,7 +38,7 @@ class RewardLearning():
         self.train_reward_split=[0.8,0.9][1]
         
         self.batch_size = 50
-        self.num_epoch = 100
+        self.num_epoch = 1
         
         self.fold = fold
         self.metric = metric
@@ -430,7 +430,7 @@ class RewardLearning():
         
         return rewards
     
-    def get_Gs(self,  gama=0.9):
+    def get_Gs(self,  gamma=0.9):
         fn_Gs = {}
         num_fns = len(self.data_for_damd.keys())
         for ex_num,fn in enumerate(tqdm(reversed(list(self.data_for_damd.keys())),total=num_fns)):
@@ -457,10 +457,10 @@ class RewardLearning():
             rewards = self.get_reward(inp_seq)
             G = 0
             for turn_num,reward in zip(reverse_turn_nums,rewards):
-                G = reward + gama*G
+                G = reward + gamma*G
                 fn_Gs[fn][turn_num] = {
                     'G':G,
-                    'gamma':gama
+                    'gamma':gamma
                 }
         return fn_Gs
 
@@ -496,11 +496,10 @@ class RewardLearning():
                                epochs = self.num_epoch, 
                               )
 
-    def save_returns(self):
-        gama=0.
+    def save_returns(self, gamma=0.):
         num_fns = len(self.data_for_damd.keys())
-        fn_Gs = self.get_Gs(gama=gama)
-        fn_G_file_name = 'fn_Gs_{}_{}_{}.json'.format(self.fold, gama, self.TRAIN_ON)
+        fn_Gs = self.get_Gs(gamma=gamma)
+        fn_G_file_name = 'fn_Gs_{}_{}_{}_{}.json'.format(self.fold, gamma, self.TRAIN_ON, self.metric)
         
         print(fn_G_file_name)
         fn_Gs_file_path = os.path.join(self.root_path,'data','multi-woz-oppe',fn_G_file_name)
@@ -513,9 +512,11 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument("-s", "--seed", dest="seed",
                         default=11,
+                        type=int,
                         help="seed")
     parser.add_argument("-K", "--folds",
-                        dest="fold", default=10,
+                        dest="folds", default=10,
+                        type=int,
                         help="Number of folds")
     parser.add_argument("-a", "--action_space",
                         dest="action_space",
@@ -527,6 +528,11 @@ if __name__ == '__main__':
                         choices={"hard", "soft"},
                         default='soft',
                         help="metric used for pairwise reward candidate generation")
+    parser.add_argument("-g", "--gamma",
+                    dest="gamma",
+                    default=0.0,
+                    type=float,
+                    help="The discount factor used in reward learning")
     args = parser.parse_args()
     
     print('param:',args)       
@@ -534,7 +540,7 @@ if __name__ == '__main__':
     rewardLearning.load_reward_rollouts()
     rewardLearning.compile_models()
     rewardLearning.train_model()
-    rewardLearning.save_returns()
+    rewardLearning.save_returns(args.gamma)
 
 
 
@@ -542,7 +548,6 @@ if __name__ == '__main__':
 
 
     
-
 
 
 

@@ -34,6 +34,7 @@ exp_name=reward_K_${K}_fold_${fold}_metric_${metric}_seed_${seed}
 
 log_file=${exp_name}.log
 log_path=${root_path}/logs/${log_file}
+echo 'To view log tail:'${log_path}
 
 python  ${root_path}/model.py -mode train -cfg seed=$seed cuda_device=$cuda \
 	exp_no=no_aug batch_size=128 multi_acts_training=False \
@@ -47,5 +48,4 @@ python  ${root_path}/model.py -mode train -cfg seed=$seed cuda_device=$cuda \
 	per_epoch_report_path=${per_epoch_report_path} \
 	dev_list=${dev_list} \
 	soft_acc=${soft_acc}
-
 

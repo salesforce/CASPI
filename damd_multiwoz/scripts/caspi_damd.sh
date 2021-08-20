@@ -6,6 +6,7 @@ while [[ "$#" -gt 0 ]]; do
         --gamma) gamma=$2; shift ;;
         --policy_loss) policy_loss=$2; shift ;;
         --action_space) action_space=$2; shift ;;
+        --metric) metric=$2; shift ;;
         --train_e2e) train_e2e=$2; shift ;;
         *) echo "Unknown parameter passed: $1"; exit 1 ;;
     esac
@@ -34,13 +35,14 @@ else
 	early_stop_count=6
 fi
 
-fn_Gs_file_path_dp=data/multi-woz-oppe/fn_Gs_${K}_${gamma}_${action_space}.json
-fn_Qs_file_path_dp=data/multi-woz-oppe/fn_Qs_${K}_${gamma}_${action_space}.json
+root_path=./damd_multiwoz
+
+fn_Gs_file_path_dp=${root_path}/data/multi-woz-oppe/fn_Gs_${K}_${gamma}_${action_space}_${metric}.json
+fn_Qs_file_path_dp=${root_path}/data/multi-woz-oppe/fn_Qs_${K}_${gamma}_${action_space}_${metric}.json
 
 exp_name=caspi_damd_train_e2e_K_${K}_gamma_${gamma}_${train_e2e}_policy_loss_${policy_loss}_action_space_${action_space}_seed_${seed}
 
 log_file=${exp_name}.log
-root_path=./damd_multiwoz
 log_path=${root_path}/logs/${log_file}
 
 
@@ -55,6 +57,5 @@ python ${root_path}/model.py -mode train -cfg seed=$seed cuda_device=${cuda} \
 	policy_loss=${policy_loss} \
 	enable_aspn=${enable_aspn} \
 	early_stop_count=${early_stop_count} \
-	data_file=${data_file}
-
+	data_file=${data_file} 
 
