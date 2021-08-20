@@ -43,7 +43,7 @@ Following script needs to be run K times, each time the value passed to --fold a
 ./damd_multiwoz/scripts/gen_reward_rollout.sh --cuda 0 --K 10 --fold 0 --metric soft --seed 68690
 ```
 
-**Reward Learning**
+**Pairwise Reward Learning**
 
 Please ensure the number of folds choosen matches with previous step 
 ```console
