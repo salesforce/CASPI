@@ -38,7 +38,7 @@ class RewardLearning():
         self.train_reward_split=[0.8,0.9][1]
         
         self.batch_size = 50
-        self.num_epoch = 1
+        self.num_epoch = 100
         
         self.fold = fold
         self.metric = metric
